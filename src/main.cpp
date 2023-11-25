@@ -25,6 +25,7 @@
 #include "plugins/ClockPlugin.h"
 #include "plugins/WeatherPlugin.h"
 #include "plugins/AnimationPlugin.h"
+#include "plugins/TickingClockPlugin.h"
 #endif
 
 #include "websocket.h"
@@ -118,6 +119,7 @@ void setup()
   pluginManager.addPlugin(new ClockPlugin());
   pluginManager.addPlugin(new WeatherPlugin());
   pluginManager.addPlugin(new AnimationPlugin());
+  pluginManager.addPlugin(new TickingClockPlugin());
 #endif
 
   pluginManager.init();
