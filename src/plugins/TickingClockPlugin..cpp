@@ -28,11 +28,12 @@ void TickingClockPlugin::loop()
 
     if (previousHour != timeinfo.tm_hour || previousMinutes != timeinfo.tm_min)
     {
+      if(previousHour==-1)Screen.scrollText("Welcome to Ticking Clock!");
+
       std::vector<int> hh = {(timeinfo.tm_hour - timeinfo.tm_hour % 10) / 10, timeinfo.tm_hour % 10};
       std::vector<int> mm = {(timeinfo.tm_min - timeinfo.tm_min % 10) / 10, timeinfo.tm_min % 10};
      
       Screen.clear();
-     // Screen.drawCharacter(0,0, Screen.readBytes(system6x7[16]), 8);
      
       Screen.drawCharacter(2,0, Screen.readBytes(system6x7[hh[0]+16]), 8);
       Screen.drawCharacter(9,0, Screen.readBytes(system6x7[hh[1]+16]), 8);
