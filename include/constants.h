@@ -5,14 +5,14 @@
 
 // enable to use led mapping for Frekvens instead of Obegränsad
 // https://www.ikea.com/de/de/p/frekvens-multibeleuchtung-led-schwarz-30420354/ 
-//#define FREKVENS
+#define FREKVENS
 
 #ifdef ESP32
-#define PIN_ENABLE 26
-#define PIN_DATA 27
-#define PIN_CLOCK 14
-#define PIN_LATCH 12
-#define PIN_BUTTON 16
+#define PIN_ENABLE 22
+#define PIN_DATA 23
+#define PIN_CLOCK 2
+#define PIN_LATCH 15
+#define PIN_BUTTON 21
 #endif
 
 #ifdef FREKVENS
@@ -44,7 +44,7 @@
 #define ROWS 16
 
 // set your city or coords (https://github.com/chubin/wttr.in)
-#define WEATHER_LOCATION "Hamburg"
+#define WEATHER_LOCATION "Koblenz"
 
 
 // ---------------
