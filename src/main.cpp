@@ -35,6 +35,7 @@
 #include "ota.h"
 #include "webserver.h"
 #include "screen.h"
+#include "messages.h"
 
 unsigned long previousMillis = 0;
 unsigned long interval = 30000;
@@ -153,6 +154,9 @@ void setup()
 
 void loop()
 {
+
+  Messages.scrollMessageEveryMinute();
+
   pluginManager.runActivePlugin();
 
   if (WiFi.status() != WL_CONNECTED && millis() - lastConnectionAttempt > connectionInterval)
