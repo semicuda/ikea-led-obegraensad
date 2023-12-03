@@ -15,8 +15,8 @@ import requests
 import hashlib
 Import('env')
 
-username = "admin"
-password = "ikea-led-wall"
+username = "ota"
+password = "hawkeye"
 
 try:
     from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
