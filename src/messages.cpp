@@ -12,6 +12,7 @@ Messages_ &Messages_::getInstance()
 // std::string text, int repeat = 0, int id = 0; std::vector<int> graph = {}
 void Messages_::add(std::string text, int repeat, int id, std::vector<int> graph)
 {
+    remove(id); // there should be only one message by id
     messages.emplace_back(Message{id, repeat, text, graph});
     //scroll();
     previousMinute=-1; // force to show message imedeately in next loop. Apparently http handlers cant run to long
@@ -67,12 +68,11 @@ void Messages_::scrollMessageEveryMinute()
         // Check if the current minute is different from the previous minute
         if (timeinfo.tm_min != previousMinute)
         {
-            // Update the previous minute to the current minute
-            previousMinute = timeinfo.tm_min;
-
             // Call the scroll function to display messages
             scroll();
-        }
+            
+            // Update the previous minute to the current minute
+            previousMinute = timeinfo.tm_min;        }
     }
 }
 
