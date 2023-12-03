@@ -49,6 +49,7 @@ void WeatherPlugin::update()
         deserializeJson(doc, http.getString());
 
         int temperature = round(doc["current_condition"][0]["temp_C"].as<float>());
+        int atemp = abs(temperature);
         int weatherCode = doc["current_condition"][0]["weatherCode"].as<int>();
         int weatherIcon = 0;
         int iconY = 1;
@@ -94,25 +95,25 @@ void WeatherPlugin::update()
 
         if (temperature >= 10)
         {
-            Screen.drawCharacter(9, tempY, Screen.readBytes(degreeSymbol), 4, 50);
+            Screen.drawCharacter(9, tempY, Screen.readBytes(degreeSymbol), 4, 70);
             Screen.drawNumbers(1, tempY, {(temperature - temperature % 10) / 10, temperature % 10});
         }
         else if (temperature <= -10)
         {
             Screen.drawCharacter(0, tempY, Screen.readBytes(minusSymbol), 4);
-            Screen.drawCharacter(11, tempY, Screen.readBytes(degreeSymbol), 4, 50);
-            Screen.drawNumbers(3, tempY, {(temperature - temperature % 10) / 10, temperature % 10});
+            Screen.drawCharacter(11, tempY, Screen.readBytes(degreeSymbol), 4, 70);
+            Screen.drawNumbers(3, tempY, {(atemp - atemp % 10) / 10, atemp % 10});
         }
         else if (temperature >= 0)
         {
-            Screen.drawCharacter(7, tempY, Screen.readBytes(degreeSymbol), 4, 50);
+            Screen.drawCharacter(7, tempY, Screen.readBytes(degreeSymbol), 4, 70);
             Screen.drawNumbers(4, tempY, {temperature});
         }
         else
         {
-            Screen.drawCharacter(0, tempY, Screen.readBytes(minusSymbol), 4);
-            Screen.drawCharacter(9, tempY, Screen.readBytes(degreeSymbol), 4, 50);
-            Screen.drawNumbers(3, tempY, {temperature});
+            Screen.drawCharacter(1, tempY, Screen.readBytes(minusSymbol), 4);
+            Screen.drawCharacter(9, tempY, Screen.readBytes(degreeSymbol), 4, 70);
+            Screen.drawNumbers(5, tempY, {atemp});
         }
     }
 }
