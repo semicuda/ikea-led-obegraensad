@@ -21,20 +21,9 @@ private:
   String HAApiString = "http://homeassistant.lan:8123/api/states/sensor.stromzaehler_leistung_wp2";
   String HAApiKey = HA_API;
 
-  std::vector<int> thunderCodes = {200, 386, 389, 392, 395};
-  std::vector<int> cloudyCodes = {119, 122};
-  std::vector<int> partyCloudyCodes = {116};
-  std::vector<int> clearCodes = {113};
-  std::vector<int> fogCodes = {143, 248, 260};
-  std::vector<int> rainCodes = {
-      176, 293, 296, 299, 302,
-      305, 308, 311, 314, 353,
-      356, 359, 386, 389, 263,
-      266, 281, 284, 185};
-  std::vector<int> snowCodes = {
-      179, 227, 323, 326, 329,
-      332, 335, 338, 368, 371,
-      392, 395, 230, 350};
+  int lastPower = 0;
+  int lasthPow = 0;
+  int lastkPow = 0;
 
 public:
   void update();
