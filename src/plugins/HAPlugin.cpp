@@ -108,9 +108,27 @@ void HAPlugin::update()
             if (power >= 1000) {
                 if  (kPow != lastkPow) {
                     Screen.drawCharacter(0, tempY, Screen.readBytes(system6x7[kPow+16]), 8);
+                    if (kPow == 1) {
+                        Screen.setPixel(6,6,255);
+                        Screen.setPixel(6,7,255);
+                        Screen.setPixel(7,6,255);
+                        Screen.setPixel(7,7,255);
+                    } else {
+                        Screen.setPixel(7,6,255);
+                        Screen.setPixel(7,7,255);
+                    }
                 }
                 if  (hPow != lasthPow) { 
                     Screen.drawCharacter(9, tempY, Screen.readBytes(system6x7[hPow+16]), 8);
+                    if (kPow == 1) {
+                        Screen.setPixel(6,6,255);
+                        Screen.setPixel(6,7,255);
+                        Screen.setPixel(7,6,255);
+                        Screen.setPixel(7,7,255);
+                    } else {
+                        Screen.setPixel(7,6,255);
+                        Screen.setPixel(7,7,255);
+                    }
                 }
             } else {
                 Screen.drawNumbers(1, tempY, {power / 100 % 10, power / 10 % 10, power % 10});
