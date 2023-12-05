@@ -218,7 +218,7 @@ To remove a message from the display, users can make an HTTP GET request to the 
 http://your-server/removemessage
 ```
 ###Parameters
-- `id`` (required): The unique identifier of the message to be removed.
+- `id` (required): The unique identifier of the message to be removed.
 ####Example
 
 ```
