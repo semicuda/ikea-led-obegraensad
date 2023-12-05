@@ -14,7 +14,7 @@ void Messages_::add(std::string text, int repeat, int id, std::vector<int> graph
 {
     remove(id); // there should be only one message by id
     messages.emplace_back(Message{id, repeat, text, graph});
-    previousMinute=-1; // force to show message imedeately in next loop. Apparently http handlers cant run to long
+    previousMinute=-1; // force the message to be displayed immediately in the next loop. Apparently http handler cannot run for too long
 }
 
 void Messages_::remove(int id)
