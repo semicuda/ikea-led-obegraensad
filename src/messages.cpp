@@ -49,8 +49,15 @@ void Messages_::scroll()
             {
                 it = messages.erase(it);
             }
+            else
+            {
+                ++it;
+            }
         }
-        ++it;
+        else
+        {
+            ++it;
+        }
     }
 
     // restore old screen
