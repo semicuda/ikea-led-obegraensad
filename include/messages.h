@@ -1,12 +1,5 @@
 #pragma once
 
-/*
-#include <Arduino.h>
-
-#include "PluginManager.h"
-#include "signs.h"
-#include "constants.h"
-#include "storage.h"*/
 #include <vector>
 #include "screen.h"
 
@@ -16,8 +9,11 @@ class Message
   public: 
   int id;
   int repeat;
+  int delay;
   std::string text;
   std::vector<int> graph;  
+  int miny;
+  int maxy;
 };
 
 
@@ -25,15 +21,17 @@ class Messages_
 {
 
  private:
+  
   Messages_() = default;
   std::vector<Message> messages;
- public:
+  int previousMinute;
+public:
   static Messages_ &getInstance();
 
   Messages_(const Screen_ &) = delete;
   Messages_ &operator=(const Screen_ &) = delete;
 
-  void add(std::string text, int repeat = 0, int id = 0, std::vector<int> graph = {}  );
+  void add(std::string text, int repeat = 0, int id = 0, int delay = 50,std::vector<int> graph = {}, int miny=0, int maxy=15 );
 
   void remove(int id = 0 );
 

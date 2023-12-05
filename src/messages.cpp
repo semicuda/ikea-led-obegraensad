@@ -9,11 +9,12 @@ Messages_ &Messages_::getInstance()
     return instance;
 }
 
-// std::string text, int repeat = 0, int id = 0; std::vector<int> graph = {}
-void Messages_::add(std::string text, int repeat, int id, std::vector<int> graph)
+// std::string text, int repeat = 0, int id = 0; int delay = 50, std::vector<int> graph = {}, int miny=0, int maxy=15
+void Messages_::add(std::string text, int repeat, int id, int delay, std::vector<int> graph, int miny, int maxy)
 {
-    messages.emplace_back(Message{id, repeat, text, graph});
-    scroll();
+    remove(id); // there should be only one message by id
+    messages.emplace_back(Message{id, repeat, delay, text, graph, miny, maxy});
+    previousMinute = -1; // force the message to be displayed immediately in the next loop. Apparently http handler cannot run for too long
 }
 
 void Messages_::remove(int id)
@@ -33,20 +34,30 @@ void Messages_::scroll()
 
     for (auto it = messages.begin(); it != messages.end();)
     {
-        // Print the text for each message
-        Screen.scrollText(it->text.c_str());
 
-        // Decrease repeat and remove if it becomes less than 0
-        if (--(it->repeat) < 0)
+        // Print the text for each message
+        if (it->text.length() > 0)
+            Screen.scrollText(it->text.c_str(), it->delay);
+        if (it->graph.size() > 0)
+            Screen.scrollGraph(it->graph, it->miny, it->maxy, it->delay);
+
+        // if the repeat is not -1, which is the flag for infinite repeat
+        if (it->repeat != -1)
         {
-            it = messages.erase(it);
+            // Decrease repeat and remove if it becomes less than 0
+            if (--(it->repeat) < 0)
+            {
+                it = messages.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
         }
         else
         {
             ++it;
         }
-
-        // You might want to consider adding some delay or other logic here
     }
 
     // restore old screen
@@ -55,8 +66,6 @@ void Messages_::scroll()
 
 void Messages_::scrollMessageEveryMinute()
 {
-    // Static variable to remember the previous minute
-    static int previousMinute;
 
     // Structure to hold time information
     struct tm timeinfo;
@@ -67,15 +76,14 @@ void Messages_::scrollMessageEveryMinute()
         // Check if the current minute is different from the previous minute
         if (timeinfo.tm_min != previousMinute)
         {
-            // Update the previous minute to the current minute
-            previousMinute = timeinfo.tm_min;
-
             // Call the scroll function to display messages
             scroll();
+
+            // Update the previous minute to the current minute
+            previousMinute = timeinfo.tm_min;
         }
     }
 }
-
 
 Messages_ &Messages = Messages.getInstance();
 
@@ -87,6 +95,17 @@ void handleMessage(AsyncWebServerRequest *request)
     std::string text = request->arg("text").c_str();
     int repeat = request->arg("repeat").toInt();
     int id = request->arg("id").toInt();
+    int delay = request->arg("delay").toInt();
+    int miny = request->arg("miny").toInt();
+    int maxy = request->arg("maxy").toInt();
+
+    // if no delay has been passed, use 50 ms
+    if (delay <= 0)
+        delay = 50;
+
+    // default maxy to 15
+    if (maxy == 0)
+        maxy = 15;
 
     // Extracting the 'graph' parameter as a comma-separated list of integers
     std::string graphParam = request->arg("graph").c_str();
@@ -101,7 +120,7 @@ void handleMessage(AsyncWebServerRequest *request)
     }
 
     // Call the add function with the extracted parameters
-    Messages.add(text, repeat, id, graph);
+    Messages.add(text, repeat, id, delay, graph, miny, maxy);
 
     // Send a response to the client
     request->send(200, "text/plain", "Message received");
