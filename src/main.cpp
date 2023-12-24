@@ -153,7 +153,7 @@ void setup()
   pluginManager.addPlugin(new ClockPlugin());
   pluginManager.addPlugin(new WeatherPlugin());
   pluginManager.addPlugin(new AnimationPlugin());
-  pluginManager.addPlugin(new TickingClockPlugin());
+  //pluginManager.addPlugin(new TickingClockPlugin());
   pluginManager.addPlugin(new HAPlugin());
 #endif
 
