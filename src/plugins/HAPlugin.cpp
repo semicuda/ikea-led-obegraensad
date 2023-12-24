@@ -79,7 +79,7 @@ void HAPlugin::update()
         int tempY = 1;
         int textY = 9;
 
-        if (((lastPower < 1000) && (power >= 1000)) || ((lastPower >= 1000) && (power < 1000))) {
+        if (((lastPower < 1000) && (power >= 1000)) || ((lastPower >= 1000) && (power < 1000)) || (lastPower == 0)) {
             Screen.clear();
             if (power < 1000)
             {
