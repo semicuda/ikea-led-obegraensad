@@ -35,6 +35,9 @@ void PluginManager::init()
     Serial.print("restore plugin: ");
     Serial.println(storage.getInt("current-plugin"));
     pluginManager.setActivePluginById(storage.getInt("current-plugin"));
+    Serial.print("restore brightness: ");
+    Serial.println(storage.getUInt("brightness",255));
+    Screen.setBrightness(storage.getUInt("brightness",255));
     storage.end();
 #endif
 
@@ -53,6 +56,7 @@ void PluginManager::persistActivePlugin()
         Serial.print("persist plugin: ");
         Serial.println(activePlugin->getId());
         storage.putInt("current-plugin", activePlugin->getId());
+        storage.putUInt("brightness", Screen.getCurrentBrightness());
     }
     storage.end();
 #endif
