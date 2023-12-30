@@ -73,6 +73,7 @@ void HAPlugin::update()
         deserializeJson(doc, http.getString());
 
         int power = round(doc["state"].as<float>());
+        //power = 1300;
         int kPow = power / 1000 % 10;
         int hPow = round((power / 100 % 10) + ((power / 10 % 10) * 0.1));
         int iconY = 1;
@@ -84,30 +85,30 @@ void HAPlugin::update()
             if (power < 1000)
             {
                 Screen.drawNumbers(1, tempY, {power / 100 % 10, power / 10 % 10, power % 10});
-                Screen.drawCharacter(6, textY, Screen.readBytes(system6x7[55]), 8); //W
+                Screen.drawCharacter(6, textY, Screen.readBytes(system6x7[87]), 8); //W
             }
             else
             {
                 if (kPow == 1) {
-                    Screen.drawCharacter(1, tempY, Screen.readBytes(system6x7[kPow+16]), 8);
-                    Screen.drawCharacter(9, tempY, Screen.readBytes(system6x7[hPow+16]), 8);
+                    Screen.drawCharacter(1, tempY, Screen.readBytes(oldNumbers[kPow]), 8);
+                    Screen.drawCharacter(9, tempY, Screen.readBytes(oldNumbers[hPow]), 8);
                     Screen.setPixel(6,6,255);
                     Screen.setPixel(6,7,255);
                     Screen.setPixel(7,6,255);
                     Screen.setPixel(7,7,255);
                 } else {
-                    Screen.drawCharacter(0, tempY, Screen.readBytes(system6x7[kPow+16]), 8);
-                    Screen.drawCharacter(9, tempY, Screen.readBytes(system6x7[hPow+16]), 8);
+                    Screen.drawCharacter(0, tempY, Screen.readBytes(oldNumbers[kPow]), 8);
+                    Screen.drawCharacter(9, tempY, Screen.readBytes(oldNumbers[hPow]), 8);
                     Screen.setPixel(7,6,255);
                     Screen.setPixel(7,7,255);
                 }
-                Screen.drawCharacter(2, textY, Screen.readBytes(system6x7[75]), 8); //k
-                Screen.drawCharacter(9, textY, Screen.readBytes(system6x7[55]), 8); //W
+                Screen.drawCharacter(2, textY, Screen.readBytes(system6x7[107]), 8); //k
+                Screen.drawCharacter(9, textY, Screen.readBytes(system6x7[87]), 8); //W
             }
         } else {
             if (power >= 1000) {
                 if  (kPow != lastkPow) {
-                    Screen.drawCharacter(0, tempY, Screen.readBytes(system6x7[kPow+16]), 8);
+                    Screen.drawCharacter(0, tempY, Screen.readBytes(oldNumbers[kPow]), 8);
                     if (kPow == 1) {
                         Screen.setPixel(6,6,255);
                         Screen.setPixel(6,7,255);
@@ -119,7 +120,7 @@ void HAPlugin::update()
                     }
                 }
                 if  (hPow != lasthPow) { 
-                    Screen.drawCharacter(9, tempY, Screen.readBytes(system6x7[hPow+16]), 8);
+                    Screen.drawCharacter(9, tempY, Screen.readBytes(oldNumbers[hPow]), 8);
                     if (kPow == 1) {
                         Screen.setPixel(6,6,255);
                         Screen.setPixel(6,7,255);
